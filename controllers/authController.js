@@ -11,17 +11,17 @@ exports.users = (req, res) => {
         res.send(data)
     })
 }
-exports.users2 = (req, res) => {
-    User.find({}).then((data) => {
-        res.send(data)
-    })
-}
 
 exports.register = async (req, res) => {
     try {
-        hashedpassword = await bcrypt.hash(req.body.password, saltRound)
-        const newuser = await User.create({ username: req.body.username, email: req.body.email, password: hashedpassword ,personinfo:req.body.personinfo})
-        res.status(200).json('user has been successfully added')
+        const isuser = await User.findOne({ email: req.body.email });
+      if (!isuser) {
+          hashedpassword = await bcrypt.hash(req.body.password, saltRound)
+          const newuser = await User.create({ username: req.body.username, email: req.body.email, password: hashedpassword , gender:req.body.gender})
+          res.status(200).json('user has been successfully added')
+      }else{
+        res.status(400).send("already exist");
+      }
     } catch (err) {
         res.status(500).send(err);
     }
@@ -38,7 +38,6 @@ exports.login = async (req, res) => {
                 return res.status(400).json({ error: "wrong password" });
             } else if (isMatch) {
                 const token = jwt.sign({ id: isuser._id }, process.env.SECRET);
-                console.log(token);
                 return res.status(200).json({token} );
             }
         }
@@ -88,7 +87,6 @@ exports.istoken = async (req, res) => {
     try {
         const newid = jwt.verify(req.body.token, process.env.SECRET)
         const isuser = await User.findOne({ _id: newid.id })
-        console.log(isuser);
         if (!isuser) {
             return res.status(400).json('errors')
         }
