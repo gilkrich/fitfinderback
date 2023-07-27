@@ -7,6 +7,7 @@ const Top = require('../models/womentops');
 
 exports.addclothes = (req, res) => {
     let {productarray} = req.body.productarray
+    console.log(productarray);
     try{
         let temp =  [Dress,Top,Shirts,Pants,Jeans]
         for (let i = 0; i < productarray.length; i++) {
