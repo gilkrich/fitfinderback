@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
+const clothesRoutes = require("./routes/clothes");
 require("dotenv").config();
 const cors = require("cors");
 app.use(cors());
@@ -28,6 +29,8 @@ mongoose
   app.use(bodyParser.json());
 
   app.use("/users", authRoutes);
+  
+  app.use("/clothes", clothesRoutes);
 
 
   app.listen(3003, () => {
