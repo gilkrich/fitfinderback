@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.route("/women").post(clothesController.addclothes);
 router.route("/man").post(clothesController.addmanclothes);
+router.route("/kids").post(clothesController.addkidsclothes);
 
 
 
