@@ -8,4 +8,4 @@ const jeansagenineSchema = new mongoose.Schema({
     companyname : {type:String,required:true}
 });
 
-module.exports = mongoose.model('Jeansagenine', jeansagenineSchema);
+module.exports = mongoose.model('Sweateragenine', jeansagenineSchema);
