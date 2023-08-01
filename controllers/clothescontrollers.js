@@ -20,6 +20,7 @@ const Shirtsnineboys = require('../models/boys/shirtsnineboys')
 const Pantsnineboys = require('../models/boys/pantsnineboys')
 const Shortsnineboys = require('../models/boys/shortsnineboys')
 
+
 exports.addclothes = (req, res) => {
     let {productarray} = req.body
     try{
@@ -34,11 +35,38 @@ exports.addclothes = (req, res) => {
         res.status(500).send(err)
     }
 }
-
+exports.addclotheswomeneagle = (req, res) => {
+    let {productarray} = req.body
+    try{
+        let temp =  [Top,Shirts,Jeans,Pants,Dress]
+        for (let i = 0; i < productarray.length; i++) {
+            for (let index = 0; index < productarray[i].length; index++) {
+                temp[i].create({productname:productarray[i][index].productTitle,productimage:productarray[i][index].productImage,productfit:productarray[i][index].productFit,producturl:productarray[i][index].productLink,companyname:productarray[i][index].companyName})
+            }        
+        }
+        res.status(200).json('added')
+    }catch(err){
+        res.status(500).send(err)
+    }
+}
 exports.addmanclothes = (req, res) => {
     let {productarray} = req.body
     try{
         let temp =  [Mantshirts,Manpants,Manshorts,Manshirts]
+        for (let i = 0; i < productarray.length; i++) {
+            for (let index = 0; index < productarray[i].length; index++) {
+                temp[i].create({productname:productarray[i][index].productTitle,productimage:productarray[i][index].productImage,productfit:productarray[i][index].productFit,producturl:productarray[i][index].productLink,companyname:productarray[i][index].companyName})
+            }        
+        }
+        res.status(200).json('added')
+    }catch(err){
+        res.status(500).send(err)
+    }
+}
+exports.addmanclotheseagle = (req, res) => {
+    let {productarray} = req.body
+    try{
+        let temp =  [Mantshirts,Manshirts,Manpants,Manshorts]
         for (let i = 0; i < productarray.length; i++) {
             for (let index = 0; index < productarray[i].length; index++) {
                 temp[i].create({productname:productarray[i][index].productTitle,productimage:productarray[i][index].productImage,productfit:productarray[i][index].productFit,producturl:productarray[i][index].productLink,companyname:productarray[i][index].companyName})
