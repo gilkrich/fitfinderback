@@ -37,6 +37,7 @@ exports.addclothes = (req, res) => {
 }
 exports.addclotheswomeneagle = (req, res) => {
     let {productarray} = req.body
+    console.log(productarray);
     try{
         let temp =  [Top,Shirts,Jeans,Pants,Dress]
         for (let i = 0; i < productarray.length; i++) {
@@ -65,6 +66,7 @@ exports.addmanclothes = (req, res) => {
 }
 exports.addmanclotheseagle = (req, res) => {
     let {productarray} = req.body
+    console.log(productarray);
     try{
         let temp =  [Mantshirts,Manshirts,Manpants,Manshorts]
         for (let i = 0; i < productarray.length; i++) {
