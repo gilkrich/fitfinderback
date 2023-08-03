@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Subuser = require('../models/subuser')
 const bcrypt = require('bcrypt');
 const saltRound = 10
 const jwt = require('jsonwebtoken')
@@ -23,6 +24,26 @@ exports.register = async (req, res) => {
         res.status(400).send("already exist");
       }
     } catch (err) {
+        res.status(500).send(err);
+    }
+}
+exports.createsubuser = async (req, res) => {
+    try {
+         const newsub = await Subuser.create(req.body)
+         const finduser = await User.findByIdAndUpdate({_id:req.body.id},{$push:{subusers:{_id:newsub._id}}})
+          res.status(200).json(finduser)
+      }
+     catch (err) {
+        res.status(500).send(err);
+    }
+}
+
+exports.addmeasurements = async (req, res) => {
+    try {
+         const finduser = await User.findByIdAndUpdate({_id:req.body.id},{$push:{measurements:{data:req.body.measurments}}})
+          res.status(200).json(finduser)
+      }
+     catch (err) {
         res.status(500).send(err);
     }
 }

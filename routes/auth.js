@@ -10,6 +10,8 @@ router.route('/register').post(authController.register);
 router.route('/isthere').get(authController.isusers);
 router.route('/istoken').post(authController.istoken);
 router.route('/addlist').patch(authController.addlist);
+router.route('/createsub').patch(authController.createsubuser);
+router.route('/addmeasurements').patch(authController.addmeasurements);
 router.route('/deletepost').patch(authController.deletepost);
 
 module.exports = router;
