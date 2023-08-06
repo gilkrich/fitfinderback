@@ -16,34 +16,34 @@ exports.users = (req, res) => {
 exports.register = async (req, res) => {
     try {
         const isuser = await User.findOne({ email: req.body.email });
-      if (!isuser) {
-          hashedpassword = await bcrypt.hash(req.body.password, saltRound)
-          const newuser = await User.create({ username: req.body.username, email: req.body.email, password: hashedpassword , gender:req.body.gender})
-          res.status(200).json('user has been successfully added')
-      }else{
-        res.status(400).send("already exist");
-      }
+        if (!isuser) {
+            hashedpassword = await bcrypt.hash(req.body.password, saltRound)
+            const newuser = await User.create({ username: req.body.username, email: req.body.email, password: hashedpassword, gender: req.body.gender ,icon:req.body.icon})
+            res.status(200).json('user has been successfully added')
+        } else {
+            res.status(400).send("already exist");
+        }
     } catch (err) {
         res.status(500).send(err);
     }
 }
 exports.createsubuser = async (req, res) => {
     try {
-         const newsub = await Subuser.create(req.body)
-         const finduser = await User.findByIdAndUpdate({_id:req.body.id},{$push:{subusers:{_id:newsub._id}}})
-          res.status(200).json(finduser)
-      }
-     catch (err) {
+        const newsub = await Subuser.create(req.body)
+        const finduser = await User.findByIdAndUpdate({ _id: req.body.id }, { $push: { subusers: { _id: newsub._id } } })
+        res.status(200).json(finduser)
+    }
+    catch (err) {
         res.status(500).send(err);
     }
 }
 
 exports.addmeasurements = async (req, res) => {
     try {
-         const finduser = await User.findByIdAndUpdate({_id:req.body.id},{$push:{measurements:{data:req.body.measurments}}})
-          res.status(200).json(finduser)
-      }
-     catch (err) {
+        const finduser = await User.findByIdAndUpdate({ _id: req.body.id }, { $push: { measurements: { data: req.body.measurments } } })
+        res.status(200).json(finduser)
+    }
+    catch (err) {
         res.status(500).send(err);
     }
 }
@@ -53,36 +53,36 @@ exports.login = async (req, res) => {
         const isuser = await User.findOne({ email: req.body.email });
         if (!isuser) {
             return res.status(400).json({ error: "wrong email" });
-        }else{
-           const isMatch = await bcrypt.compare(req.body.password, isuser.password)
+        } else {
+            const isMatch = await bcrypt.compare(req.body.password, isuser.password)
             if (!isMatch) {
                 return res.status(400).json({ error: "wrong password" });
             } else if (isMatch) {
                 const token = jwt.sign({ id: isuser._id }, process.env.SECRET);
-                return res.status(200).json({token} );
+                return res.status(200).json({ token });
             }
         }
     }
     catch (err) {
-        res.status(500).json({error:"shit"});
+        res.status(500).json({ error: "shit" });
     }
 }
 
 
-exports.addlist = async (req,res) =>{
-    try{
-       const patched = await User.findByIdAndUpdate(req.body.id ,req.body)
-       res.status(201).json("hey")
-    }catch (err){
-     res.status(500).json("fuck")
+exports.addlist = async (req, res) => {
+    try {
+        const patched = await User.findByIdAndUpdate(req.body.id, req.body)
+        res.status(201).json("hey")
+    } catch (err) {
+        res.status(500).json("fuck")
     }
-   }
-   
+}
 
-   
+
+
 exports.deletepost = async (req, res) => {
     try {
-        const patched = await User.findByIdAndUpdate(req.body.id ,req.body)
+        const patched = await User.findByIdAndUpdate(req.body.id, req.body)
         res.status(200).json("seccses");
     } catch (err) {
         res.status(500).json(err.message);
@@ -107,7 +107,7 @@ exports.isusers = async (req, res) => {
 exports.istoken = async (req, res) => {
     try {
         const newid = jwt.verify(req.body.token, process.env.SECRET)
-        const isuser = await User.findOne({ _id: newid.id })
+        const isuser = await User.findOne({ _id: newid.id }).populate('subusers')
         if (!isuser) {
             return res.status(400).json('errors')
         }
@@ -116,6 +116,25 @@ exports.istoken = async (req, res) => {
     } catch (err) {
         res.status(500).json('errors')
     }
-
-
 }
+
+    exports.deletesub = async (req, res) => {
+        try {
+            const deleteduser = await Subuser.findByIdAndDelete(req.body.subid)
+            const updateduser = await User.findByIdAndUpdate(req.body.id, { $pull: { subusers: { $in: req.body.subid } } })
+            return res.status(201).send(updateduser)
+        } catch (err) {
+            res.status(500).json('errors')
+        }
+    }
+
+
+    exports.editsub = async (req, res) => {
+        try {
+            const edituser = await Subuser.findByIdAndUpdate(req.body.id,req.body)
+            return res.status(201).send(updateduser)
+        } catch (err) {
+            res.status(500).json('errors')
+        }
+    }
+
