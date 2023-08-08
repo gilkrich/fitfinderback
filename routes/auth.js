@@ -13,5 +13,6 @@ router.route('/addlist').patch(authController.addlist);
 router.route('/createsub').patch(authController.createsubuser);
 router.route('/addmeasurements').patch(authController.addmeasurements);
 router.route('/deletepost').patch(authController.deletepost);
+router.route('/sizeincompaney').patch(authController.sizeincompaney);
 
 module.exports = router;
