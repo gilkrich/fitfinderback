@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
         const isuser = await User.findOne({ email: req.body.email });
         if (!isuser) {
             hashedpassword = await bcrypt.hash(req.body.password, saltRound)
-            const newuser = await User.create({ username: req.body.username, email: req.body.email, password: hashedpassword, gender: req.body.gender ,icon:req.body.icon})
+            const newuser = await User.create({ username: req.body.username, email: req.body.email, password: hashedpassword, gender: req.body.gender, icon: req.body.icon })
             res.status(200).json('user has been successfully added')
         } else {
             res.status(400).send("already exist");
@@ -118,23 +118,37 @@ exports.istoken = async (req, res) => {
     }
 }
 
-    exports.deletesub = async (req, res) => {
-        try {
-            const deleteduser = await Subuser.findByIdAndDelete(req.body.subid)
-            const updateduser = await User.findByIdAndUpdate(req.body.id, { $pull: { subusers: { $in: req.body.subid } } })
-            return res.status(201).send(updateduser)
-        } catch (err) {
-            res.status(500).json('errors')
-        }
+exports.deletesub = async (req, res) => {
+    try {
+        const deleteduser = await Subuser.findByIdAndDelete(req.body.subid)
+        const updateduser = await User.findByIdAndUpdate(req.body.id, { $pull: { subusers: { $in: req.body.subid } } })
+        return res.status(201).send(updateduser)
+    } catch (err) {
+        res.status(500).json('errors')
     }
+}
 
 
-    exports.editsub = async (req, res) => {
-        try {
-            const edituser = await Subuser.findByIdAndUpdate(req.body.id,req.body)
-            return res.status(201).send(updateduser)
-        } catch (err) {
-            res.status(500).json('errors')
-        }
+exports.editsub = async (req, res) => {
+    try {
+        const edituser = await Subuser.findByIdAndUpdate(req.body.id, req.body)
+        return res.status(201).send(updateduser)
+    } catch (err) {
+        res.status(500).json('errors')
     }
+}
+
+
+exports.sizeincompaney = async (req, res) => {
+    try {
+        console.log(req.body.id);
+        const updatesize = await User.findByIdAndUpdate(
+            { _id: req.body.id },
+            { sizeincompaney: req.body.sizeincompaney }
+        );
+        res.status(200).json(updatesize);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
 
