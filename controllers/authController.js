@@ -1,17 +1,15 @@
-const User = require('../models/user');
-const Subuser = require('../models/subuser')
-const bcrypt = require('bcrypt');
-const saltRound = 10
-const jwt = require('jsonwebtoken')
+const User = require("../models/user");
+const Subuser = require("../models/subuser");
+const bcrypt = require("bcrypt");
+const saltRound = 10;
+const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
 
-
-
 exports.users = (req, res) => {
-    User.find({}).then((data) => {
-        res.send(data)
-    })
-}
+  User.find({}).then((data) => {
+    res.send(data);
+  });
+};
 
 exports.register = async (req, res) => {
     try {
@@ -26,7 +24,8 @@ exports.register = async (req, res) => {
     } catch (err) {
         res.status(500).send(err);
     }
-}
+  
+};
 exports.createsubuser = async (req, res) => {
     try {
         const newsub = await Subuser.create(req.body)
@@ -68,6 +67,14 @@ exports.login = async (req, res) => {
     }
 }
 
+exports.addlist = async (req, res) => {
+  try {
+    const patched = await User.findByIdAndUpdate(req.body.id, req.body);
+    res.status(201).json("hey");
+  } catch (err) {
+    res.status(500).json("fuck");
+  }
+};
 
 exports.addlist = async (req, res) => {
     try {
@@ -91,18 +98,18 @@ exports.deletepost = async (req, res) => {
 }
 
 exports.isusers = async (req, res) => {
-    try {
-        const isuser = await User.find({ email: req.body.email })
-        console.log(isuser);
-        if (isuser == undefined) {
-            res.send(true)
-        } else {
-            res.send(false)
-        }
-    } catch (err) {
-        res.status(500).json('errors')
+  try {
+    const isuser = await User.find({ email: req.body.email });
+    console.log(isuser);
+    if (isuser == undefined) {
+      res.send(true);
+    } else {
+      res.send(false);
     }
-}
+  } catch (err) {
+    res.status(500).json("errors");
+  }
+};
 
 exports.istoken = async (req, res) => {
     try {
