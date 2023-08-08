@@ -12,7 +12,8 @@ router.route('/istoken').post(authController.istoken);
 router.route('/addlist').patch(authController.addlist);
 router.route('/createsub').patch(authController.createsubuser);
 router.route('/addmeasurements').patch(authController.addmeasurements);
-router.route('/deletepost').patch(authController.deletepost);
+router.route('/deletesub').patch(authController.deletesub);
+router.route('/editsub').patch(authController.editsub);
 router.route('/sizeincompaney').patch(authController.sizeincompaney);
 
 module.exports = router;

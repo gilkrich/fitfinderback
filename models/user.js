@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
   measurements: {
     type: Object,
   },
-  sizeincompaney:{type:Object}
+  icon: { type: String, required: true },
+  sizeincompaney: { type: Object },
 });
 
 module.exports = mongoose.model("User", userSchema);
