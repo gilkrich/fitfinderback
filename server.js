@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const clothesRoutes = require("./routes/clothes");
+const getroute =require("./routes/getroute")
 require("dotenv").config();
 const cors = require("cors");
 app.use(cors());
@@ -32,6 +33,7 @@ mongoose
   
   app.use("/clothes", clothesRoutes);
 
+  app.use("/stylethird",getroute)
 
   app.listen(3003, () => {
     console.log("Server running on port 3003");
