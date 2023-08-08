@@ -139,9 +139,9 @@ exports.deletesub = async (req, res) => {
 exports.editsub = async (req, res) => {
     try {
         const edituser = await Subuser.findByIdAndUpdate(req.body.id, req.body)
-        return res.status(201).send(updateduser)
+        return res.status(201).send(edituser)
     } catch (err) {
-        res.status(500).json('errors')
+        res.status(500).json(err.message)
     }
 }
 
@@ -152,6 +152,19 @@ exports.sizeincompaney = async (req, res) => {
         const updatesize = await User.findByIdAndUpdate(
             { _id: req.body.id },
             { sizeincompaney: req.body.sizeincompaney }
+        );
+        res.status(200).json(updatesize);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
+
+
+exports.sizeincompaneysub = async (req, res) => {
+    try {
+        const updatesize = await Subuser.findByIdAndUpdate(
+            { _id: req.body.id },
+            { sizeincompany: req.body.sizeincompany }
         );
         res.status(200).json(updatesize);
     } catch (err) {
