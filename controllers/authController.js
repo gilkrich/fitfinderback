@@ -6,9 +6,9 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
 
 exports.users = (req, res) => {
-  User.find({}).then((data) => {
-    res.send(data);
-  });
+    User.find({}).then((data) => {
+        res.send(data);
+    });
 };
 
 exports.register = async (req, res) => {
@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
     } catch (err) {
         res.status(500).send(err);
     }
-  
+
 };
 exports.createsubuser = async (req, res) => {
     try {
@@ -69,12 +69,12 @@ exports.login = async (req, res) => {
 }
 
 exports.addlist = async (req, res) => {
-  try {
-    const patched = await User.findByIdAndUpdate(req.body.id, req.body);
-    res.status(201).json("hey");
-  } catch (err) {
-    res.status(500).json("fuck");
-  }
+    try {
+        const patched = await User.findByIdAndUpdate(req.body.id, req.body);
+        res.status(201).json("hey");
+    } catch (err) {
+        res.status(500).json("fuck");
+    }
 };
 
 exports.addlist = async (req, res) => {
@@ -99,17 +99,17 @@ exports.deletepost = async (req, res) => {
 }
 
 exports.isusers = async (req, res) => {
-  try {
-    const isuser = await User.find({ email: req.body.email });
-    console.log(isuser);
-    if (isuser == undefined) {
-      res.send(true);
-    } else {
-      res.send(false);
+    try {
+        const isuser = await User.find({ email: req.body.email });
+        console.log(isuser);
+        if (isuser == undefined) {
+            res.send(true);
+        } else {
+            res.send(false);
+        }
+    } catch (err) {
+        res.status(500).json("errors");
     }
-  } catch (err) {
-    res.status(500).json("errors");
-  }
 };
 
 exports.istoken = async (req, res) => {
@@ -172,4 +172,15 @@ exports.sizeincompaneysub = async (req, res) => {
         res.status(500).send(err.message);
     }
 };
+
+exports.editmeasurements = async (req, res) => {
+    try {
+        const edituserUnset = await User.findByIdAndUpdate(req.body.id, {$unset: { sizeincompaney: 1 }}, { new: true });
+        const edituserPulled = await User.findByIdAndUpdate(req.body.id, {$pull : { measurements: { data: { $exists: true } } }});
+        const edituserPushed = await User.findByIdAndUpdate(req.body.id, {$push: { measurements: { data: req.body.measurments } }}, { new: true });
+        return res.status(201).send(edituserPushed)
+    } catch (err) {
+        res.status(500).json(err.message)
+    }
+}
 
