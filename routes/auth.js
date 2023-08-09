@@ -16,5 +16,6 @@ router.route('/deletesub').patch(authController.deletesub);
 router.route('/editsub').patch(authController.editsub);
 router.route('/sizeincompaney').patch(authController.sizeincompaney);
 router.route('/sizeincompaneysub').patch(authController.sizeincompaneysub);
+router.route('/editmeasurements').patch(authController.editmeasurements);
 
 module.exports = router;
