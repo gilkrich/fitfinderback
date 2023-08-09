@@ -8,6 +8,7 @@ const getroute =require("./routes/getroute")
 require("dotenv").config();
 const cors = require("cors");
 app.use(cors());
+app.use(cors({ origin: "https://fitfinderapi.onrender.com" }))
 
 
 mongoose
