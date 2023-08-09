@@ -17,7 +17,8 @@ exports.register = async (req, res) => {
         if (!isuser) {
             hashedpassword = await bcrypt.hash(req.body.password, saltRound)
             const newuser = await User.create({ username: req.body.username, email: req.body.email, password: hashedpassword, gender: req.body.gender, icon: req.body.icon })
-            res.status(200).json('user has been successfully added')
+            const token = jwt.sign({ id: newuser._id }, process.env.SECRET);
+            return res.status(200).json({ token });
         } else {
             res.status(400).send("already exist");
         }
