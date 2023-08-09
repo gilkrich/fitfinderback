@@ -7,14 +7,16 @@ const clothesRoutes = require("./routes/clothes");
 const getroute =require("./routes/getroute")
 require("dotenv").config();
 const cors = require("cors");
-app.use(cors());
-app.use(cors({ origin: "https://fitfinderapi.onrender.com" }))
+const corsOptions = {
+  origin : "https://fitifinder.netlify.app",
+  optionsSuccess :200
+}
 
 
 mongoose
-  .connect(
-    'mongodb+srv://fitfinder:fitfinder123@fitfinder.ut2uirp.mongodb.net/?retryWrites=true&w=majority',
-    {}
+.connect(
+  'mongodb+srv://fitfinder:fitfinder123@fitfinder.ut2uirp.mongodb.net/?retryWrites=true&w=majority',
+  {}
   )
   .then(() => {
     console.log("Successfully connected to MongoDB Atlas");
@@ -23,7 +25,8 @@ mongoose
     console.log("Unable to connect to MongoDB Atlas");
     console.error(err);
   });
-
+  
+  app.use(cors(corsOptions));
   app.get("/", (req, res) => {
     res.send("Hello World!");
   });
