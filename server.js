@@ -26,6 +26,7 @@ mongoose
     console.error(err);
   });
   
+  // app.use(cors());
   app.use(cors(corsOptions));
   app.get("/", (req, res) => {
     res.send("Hello World!");
