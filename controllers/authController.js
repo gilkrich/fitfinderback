@@ -52,11 +52,11 @@ exports.login = async (req, res) => {
     try {
         const isuser = await User.findOne({ email: req.body.email });
         if (!isuser) {
-            return res.status(400).json({ error: "wrong email" });
+            return res.status(400).json({ error: "The email you entered in wrong" });
         } else {
             const isMatch = await bcrypt.compare(req.body.password, isuser.password)
             if (!isMatch) {
-                return res.status(400).json({ error: "wrong password" });
+                return res.status(400).json({ error: "The password you entered in wrong" });
             } else if (isMatch) {
                 const token = jwt.sign({ id: isuser._id }, process.env.SECRET);
                 return res.status(200).json({ token });
@@ -139,6 +139,7 @@ exports.deletesub = async (req, res) => {
 
 exports.editsub = async (req, res) => {
     try {
+        const edituserUnset = await Subuser.findByIdAndUpdate(req.body.id, {$unset: { sizeincompany: 1 }}, { new: true });
         const edituser = await Subuser.findByIdAndUpdate(req.body.id, req.body)
         return res.status(201).send(edituser)
     } catch (err) {
