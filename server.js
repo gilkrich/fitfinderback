@@ -8,7 +8,7 @@ const getroute =require("./routes/getroute")
 require("dotenv").config();
 const cors = require("cors");
 const corsOptions = {
-  origin : "https://fitifinder.netlify.app",
+  origin : "https://fit-finder.com/",
   optionsSuccess :200
 }
 
@@ -26,8 +26,8 @@ mongoose
     console.error(err);
   });
   
-  // app.use(cors(corsOptions));
   app.use(cors());
+  // app.use(cors(corsOptions));
   app.get("/", (req, res) => {
     res.send("Hello World!");
   });
