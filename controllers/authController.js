@@ -133,7 +133,9 @@ exports.istoken = async (req, res) => {
 exports.deletesub = async (req, res) => {
     try {
         const deleteduser = await Subuser.findByIdAndDelete(req.body.subid)
-        const updateduser = await User.findByIdAndUpdate(req.body.id, { $pull: { subusers: { $in: req.body.subid } } },{ new: true })
+
+        const updateduser = await User.findByIdAndUpdate(req.body.id, { $pull: { subusers: { id: req.body.subid } } })
+
         return res.status(201).send(updateduser)
     } catch (err) {
         res.status(500).json(err.message)
