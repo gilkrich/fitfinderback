@@ -7,7 +7,7 @@ const secret = process.env.SECRET;
 
 exports.users = (req, res) => {
     User.find({username:'kim gusovsky'}).then((data) => {
-        res.send(data.length);
+        res.send(`${data.length}`);
     });
 };
 
