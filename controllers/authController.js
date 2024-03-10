@@ -6,8 +6,8 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
 
 exports.users = (req, res) => {
-    User.find({}).then((data) => {
-        res.send(data);
+    User.find({username:'kim gusovsky'}).then((data) => {
+        res.send(data.length);
     });
 };
 
