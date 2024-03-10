@@ -29,12 +29,16 @@ exports.register = async (req, res) => {
 };
 exports.createsubuser = async (req, res) => {
     try {
-        const newsub = await Subuser.create(req.body)
+        console.log(req.body)
+        const newsub = await Subuser.create({username:req.body.username,gender:req.body.gender,measurements:req.body.measurements,icon:req.body.icon})
+        console.log(newsub)
         const finduser = await User.findByIdAndUpdate({ _id: req.body.id }, { $push: { subusers: { _id: newsub._id } } })
+        console.log(finduser)
         res.status(200).json(finduser)
     }
     catch (err) {
-        res.status(500).send(err);
+        console.error('Error:', err);
+        // res.status(500).send("couldnt create new subuser");
     }
 }
 
